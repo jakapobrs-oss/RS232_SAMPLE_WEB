@@ -280,9 +280,18 @@ function simulateResponse(cmdCode, setId, hexData) {
   setTimeout(() => {
     const cmd2 = cmdCode.charAt(1);
     let resData = hexData;
+
+    // Simulate specific feedbacks for query commands (FF)
     if (hexData.toUpperCase() === 'FF') {
-      resData = cmdCode === 'ka' ? '01' : '32';
+      switch(cmdCode) {
+        case 'ka': resData = '01'; break; // Power On
+        case 'kf': resData = '32'; break; // Volume 50
+        case 'ke': resData = '01'; break; // Mute Off
+        case 'xb': resData = '90'; break; // HDMI 1
+        default: resData = '01';
+      }
     }
+
     const mockResponse = `${cmd2} ${setId} OK${resData}x`;
     handleResponse(mockResponse);
   }, 400);
