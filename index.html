@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LG TV Serial Controller</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div id="errorBanner" class="error-banner">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span id="errorMsg">Your browser does not support the Web Serial API. Please use Google Chrome or Microsoft Edge.</span>
+  </div>
+
+  <header class="app-header">
+    <h1 class="app-title"><i class="fas fa-tv" style="margin-right: 12px;"></i>LG TV Controller</h1>
+    <div class="status-badge" id="statusBadge">
+      <div class="status-indicator" id="statusIndicator"></div>
+      <span class="status-text" id="statusText">Disconnected</span>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <!-- Left Column: Controls -->
+    <div class="control-column">
+      
+      <!-- Connection Panel -->
+      <section class="glass-panel" style="margin-bottom: 24px;">
+        <h2 class="section-title"><i class="fas fa-plug"></i> Connection Setup</h2>
+        
+        <div class="settings-row">
+          <div class="input-group">
+            <label for="baudRate">Baud Rate</label>
+            <select id="baudRate" class="glass-input">
+              <option value="9600" selected>9600 bps</option>
+              <option value="19200">19200 bps</option>
+              <option value="115200">115200 bps</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="setId">TV Set ID</label>
+            <input type="number" id="setId" class="glass-input" value="1" min="0" max="99" title="0 for all TVs, usually 1 for single TV">
+          </div>
+        </div>
+        
+        <div style="display: flex; gap: 12px;">
+          <button id="btnConnect" class="btn btn-primary" style="flex: 1;">
+            <i class="fas fa-link"></i> Connect Port
+          </button>
+          <button id="btnDisconnect" class="btn" style="flex: 1;" disabled>
+            <i class="fas fa-unlink"></i> Disconnect
+          </button>
+        </div>
+        
+        <button id="btnMockMode" class="btn btn-mock">
+          <i class="fas fa-flask"></i> Enable Mock Mode (Test UI without TV)
+        </button>
+      </section>
+
+      <!-- Basic Controls Panel -->
+      <section class="glass-panel" style="margin-bottom: 24px;">
+        <h2 class="section-title"><i class="fas fa-power-off"></i> Power & Volume</h2>
+        
+        <div class="control-grid">
+          <button id="btnPowerOn" class="btn btn-success" disabled>
+            <i class="fas fa-power-off"></i> Power On
+          </button>
+          <button id="btnPowerOff" class="btn btn-danger" disabled>
+            <i class="fas fa-power-off"></i> Power Off
+          </button>
+        </div>
+
+        <div class="volume-slider-container">
+          <i class="fas fa-volume-down" style="color: var(--text-muted)"></i>
+          <input type="range" id="volumeSlider" min="0" max="100" value="0" disabled>
+          <i class="fas fa-volume-up" style="color: var(--text-muted)"></i>
+          <span class="volume-val" id="volumeValue">0</span>
+        </div>
+        
+        <div class="control-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <button id="btnVolDown" class="btn" disabled><i class="fas fa-minus"></i> Vol</button>
+          <button id="btnMuteToggle" class="btn" disabled><i class="fas fa-volume-mute"></i> Mute</button>
+          <button id="btnVolUp" class="btn" disabled><i class="fas fa-plus"></i> Vol</button>
+        </div>
+      </section>
+
+      <!-- Input Selection -->
+      <section class="glass-panel">
+        <h2 class="section-title"><i class="fas fa-sign-in-alt"></i> Input Source</h2>
+        <div class="control-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <button class="btn btn-input" data-hex="90" disabled>HDMI 1</button>
+          <button class="btn btn-input" data-hex="91" disabled>HDMI 2</button>
+          <button class="btn btn-input" data-hex="92" disabled>HDMI 3</button>
+          <button class="btn btn-input" data-hex="93" disabled>HDMI 4</button>
+          <button class="btn btn-input" data-hex="20" disabled>AV 1</button>
+          <button class="btn btn-input" data-hex="60" disabled>RGB PC</button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Right Column: Remote & Terminal -->
+    <div class="terminal-column">
+      
+      <!-- Virtual Remote -->
+      <section class="glass-panel" style="margin-bottom: 24px; text-align: center;">
+        <h2 class="section-title"><i class="fas fa-gamepad"></i> Virtual Remote</h2>
+        
+        <div class="dpad-container">
+          <div class="dpad-empty"></div>
+          <button class="dpad-btn btn-ir" data-hex="40" disabled><i class="fas fa-chevron-up"></i></button>
+          <div class="dpad-empty"></div>
+          
+          <button class="dpad-btn btn-ir" data-hex="07" disabled><i class="fas fa-chevron-left"></i></button>
+          <button class="dpad-btn dpad-ok btn-ir" data-hex="44" disabled>OK</button>
+          <button class="dpad-btn btn-ir" data-hex="06" disabled><i class="fas fa-chevron-right"></i></button>
+          
+          <div class="dpad-empty"></div>
+          <button class="dpad-btn btn-ir" data-hex="41" disabled><i class="fas fa-chevron-down"></i></button>
+          <div class="dpad-empty"></div>
+        </div>
+
+        <div class="remote-actions">
+          <button class="btn btn-ir" data-hex="28" disabled><i class="fas fa-undo"></i> Back</button>
+          <button class="btn btn-ir" data-hex="5B" disabled><i class="fas fa-times"></i> Exit</button>
+          <button class="btn btn-ir" data-hex="43" disabled><i class="fas fa-cog"></i> Menu</button>
+          <button class="btn btn-ir" data-hex="7C" disabled><i class="fas fa-home"></i> Home</button>
+        </div>
+      </section>
+
+      <!-- Terminal -->
+      <section class="glass-panel console-container">
+        <h2 class="section-title" style="display: flex; justify-content: space-between;">
+          <span><i class="fas fa-terminal"></i> Command Terminal</span>
+          <button id="btnClearLog" class="btn" style="padding: 4px 8px; font-size: 0.8rem;"><i class="fas fa-trash-alt"></i></button>
+        </h2>
+        
+        <div class="console-log" id="consoleLog">
+          <div class="log-entry log-info">System initialized. Waiting for connection...</div>
+        </div>
+        
+        <div class="console-input-row">
+          <input type="text" id="rawCommandInput" class="glass-input" placeholder="e.g. ka 01 FF" disabled>
+          <button id="btnSendCommand" class="btn btn-primary" disabled><i class="fas fa-paper-plane"></i></button>
+        </div>
+      </section>
+      
+    </div>
+  </main>
+
+  <script src="app.js?v=4"></script>
+</body>
+</html>
