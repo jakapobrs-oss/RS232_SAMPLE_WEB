@@ -1,0 +1,9 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.iml
+/.idea/
+/.vscode/
+
+# เผื่ออนาคตถ้ามี build tool / static server ที่ลง dependency
+node_modules/
