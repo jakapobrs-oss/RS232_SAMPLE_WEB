@@ -13,7 +13,7 @@ app.js                ← logic: ประกอบคำสั่ง LG, จั
 styles.css            ← สไตล์
 serial-web-shim.js    ← สะพานไป Web Serial API (เลียน interface AndroidSerial ของฝั่งแอป)
 lib/fontawesome/      ← ไอคอน
-tools/                ← สคริปต์เทสโปรโตคอลเฟส 1 (ดู tools/README.md)
+command/                ← สคริปต์เทสโปรโตคอลเฟส 1 (ดู command/README.md)
 ```
 
 ## วิธีรัน (สำคัญ: ต้องเสิร์ฟผ่าน localhost)
@@ -34,7 +34,7 @@ npx serve .
 ปุ่มต่างๆ: Power, Volume, Mute, เปลี่ยน Input, รีโมตเสมือน, ช่องพิมพ์คำสั่งเอง
 
 > ต้องต่อ **USB-to-RS232 → ช่อง RS-232C ของ TV** เข้ากับเครื่อง notebook ก่อน
-> อยากพิสูจน์ฮาร์ดแวร์/โปรโตคอลก่อนเปิดเว็บ ใช้ `tools/Test-LgTv.ps1` ได้
+> อยากพิสูจน์ฮาร์ดแวร์/โปรโตคอลก่อนเปิดเว็บ ใช้ `command/Test-LgTv.ps1` ได้
 
 ## สะพาน serial (contract เดียวกับฝั่งแอป)
 
